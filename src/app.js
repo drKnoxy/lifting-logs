@@ -10,7 +10,7 @@ angular.module('app',[
   'home'
 ])
 .config(function($locationProvider) {
-  $locationProvider.html5Mode(true);
+  // $locationProvider.html5Mode(true);
 })
 .controller('appController', function($scope, User){
   User.getCurrent()
