@@ -1,16 +1,20 @@
 angular.module('app',[
-    // Angular Team
-    'ngRoute',
+  // Angular Team
+  'ngRoute',
 
-    // Third Party
-    'angular-stamplay',
+  // Third Party
+  'angular-stamplay',
 
-    // Local
-    'home'
+  // Local
+  'UserService',
+  'home'
 ])
 .config(function($locationProvider) {
-    $locationProvider.html5Mode(true);
+  $locationProvider.html5Mode(true);
 })
-.controller('appController', function($scope){
-
+.controller('appController', function($scope, User){
+  User.getCurrent()
+      .then(function(resp){
+          console.log(resp);
+      })
 });
