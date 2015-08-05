@@ -8,3 +8,6 @@ Keep logs for your lifting
 [] add login to homepage
 [] install a nicer bootstrap theme
 [] switch to sass
+[] add login / logout links to the nav
+[] add "lifts" to the nav
+[] only show lifts link when logged in
