@@ -1,0 +1,30 @@
+{
+  "name": "lifting-logs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drKnoxy/lifting-logs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drKnoxy/lifting-logs/issues"
+  },
+  "homepage": "https://github.com/drKnoxy/lifting-logs",
+  "devDependencies": {
+    "connect-modrewrite": "^0.8.2",
+    "del": "^1.2.0",
+    "express": "^4.13.3",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-livereload": "^3.8.0",
+    "gulp-rev-all": "^0.8.21",
+    "gulp-sass": "^2.0.4",
+    "path": "^0.11.14"
+  }
+}
