@@ -1,0 +1,10 @@
+{
+  "appId": "logs",
+  "apiKey": "a8bcbbc35f63c91661a26a05fa19022db075304b93fcb7d935ecd4c10afd43ad",
+  "public": "./",
+  "ignore": [
+    "stamplay.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
