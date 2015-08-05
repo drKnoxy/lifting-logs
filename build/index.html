@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app" ng-controller="appController">
+<html lang="en" ng-app="app" ng-controller="appController as app">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -34,10 +34,14 @@
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<a href="/auth/v0/google/connect">Log In</a>
+				<li ng-show="!app.user.isLoggedIn">
+					<a href="/auth/v0/google/connect">
+						<i class="icon ion-social-google"></i>
+						Log In
+					</a>
 				</li>
-				<li>
+				<li ng-show="app.user.isLoggedIn">
+					<img ng-src="{{app.user.img}}" alt="">
 					<a ng-click="auth.logout()">Log Out</a>
 				</li>
 			</ul>
