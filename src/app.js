@@ -8,14 +8,40 @@
 
             // Local
             'app.routes',
+            'app.admin',
+            'app.auth',
+            'app.group',
+            'app.home',
+            'app.lift',
+
             'UserService',
             'LiftsService',
-            'home'
         ])
-        .controller('AppController', AppController);
+        .controller('AppController', ['User', '$rootScope', AppController]);
 
-    function AppController() {
+    function AppController(User, $rootScope) {
         var vm = this;
+        vm.logout = logout;
+
+        $rootScope.currentUser = {};
+
+        User.getCurrent()
+            .then(function(data) {
+                if (data.get('_id')) {
+                    $rootScope.currentUser = {
+                        id: data.get('_id'),
+                        name: data.get('displayName'),
+                        image: data.get('profileImg')
+                    };
+                } else {
+                    $rootScope.currentUser = {};
+                }
+            });
+
+        function logout() {
+            User.logout();
+            $rootScope.currentUser = {};
+        }
     }
 
 })();

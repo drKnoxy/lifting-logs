@@ -26,23 +26,27 @@
 	<nav class="navbar navbar-inverse navbar-static-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" ng-href="/lifts">Lifting Logs</a>
+				<a class="navbar-brand" ui-sref="home">Lifting Logs</a>
 			</div>
 
-			<ul class="nav navbar-nav">
-				<li><a href="/lifts">Lifts</a></li>
+			<ul class="nav navbar-nav navbar-right" ng-if="currentUser.id">
+				<li>
+					<a ui-sref="admin">Admin</a>
+				</li>
+				<!-- <li>
+					<a ui-sref="profile">Profile</a>
+				</li> -->
+				<li>
+					<a ng-click="app.logout()">Log Out</a>
+				</li>
 			</ul>
 
-			<ul class="nav navbar-nav navbar-right">
-				<li ng-show="app.user.isLoggedIn">
-					<!-- <img ng-src="{{app.user.img}}" alt=""> -->
-					<a ng-click="app.user.logout()">Log Out</a>
+			<ul class="nav navbar-nav navbar-right" ng-if="!currentUser.id">
+				<li>
+					<a ui-sref="auth">Register</a>
 				</li>
-				<li ng-hide="app.user.isLoggedIn">
-					<a href="/auth/v0/google/connect">
-						<i class="icon ion-social-google"></i>
-						Log In
-					</a>
+				<li>
+					<a ui-sref="auth">Sign in</a>
 				</li>
 			</ul>
 		</div>

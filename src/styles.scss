@@ -1,3 +1,5 @@
-.test {
-    display: none;
+// cursors
+a[ui-sref],
+a[ng-click] {
+    cursor: pointer;
 }

@@ -1,5 +1,9 @@
-angular.module('home', [])
-.controller('HomeController', function($scope) {
+(function(){
+	angular
+		.module('app.home', [])
+		.controller('HomeController', HomeController);
 
-});
-
+	function HomeController() {
+		var home = this;
+	}
+})();
