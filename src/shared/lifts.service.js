@@ -2,14 +2,15 @@
 
 	angular
 		.module('LiftsService', ['angular-stamplay'])
-		.factory('Lifts', LiftsService);
+		.factory('Lifts', ['$q', '$stamplay', LiftsService]);
 
 	function LiftsService($q, $stamplay) {
-		var service = {
-			getAll: getAll
-		}
 
-		function getAll() {
+		return {
+			getGroups: getGroups
+		};
+
+		function getGroups() {
 			var deferred = $q.defer();
 
 			var collection = $stamplay.Cobject('liftgroups').Collection;

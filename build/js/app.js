@@ -162,10 +162,21 @@
 (function(){
 	angular
 		.module('app.home', [])
-		.controller('HomeController', HomeController);
+		.controller('HomeController', ['Lifts', HomeController]);
 
-	function HomeController() {
+	function HomeController(Lifts) {
 		var home = this;
+
+		home.liftGroups = [];
+		home.selectedGroup = {};
+
+		Lifts.getGroups()
+			.then(function(data) {
+				home.liftGroups = data.instance;
+				home.selectedGroup = home.liftGroups[0];
+			});
+
+
 	}
 })();
 
@@ -305,14 +316,15 @@
 
 	angular
 		.module('LiftsService', ['angular-stamplay'])
-		.factory('Lifts', LiftsService);
+		.factory('Lifts', ['$q', '$stamplay', LiftsService]);
 
 	function LiftsService($q, $stamplay) {
-		var service = {
-			getAll: getAll
-		}
 
-		function getAll() {
+		return {
+			getGroups: getGroups
+		};
+
+		function getGroups() {
 			var deferred = $q.defer();
 
 			var collection = $stamplay.Cobject('liftgroups').Collection;
