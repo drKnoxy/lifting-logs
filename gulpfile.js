@@ -10,11 +10,15 @@ var modRewrite = require('connect-modrewrite');
 
 // config
 var paths = {
-    js: [
-        'src/libs/**/*.js',
-        'src/app.js',
-        'src/**/*.js'
-    ]
+    js: {
+        libs: [
+            'src/libs/**/*.js',
+        ],
+        local: [
+            'src/app.js',
+            'src/**/*.js'
+        ]
+    }
 }
 
 // Tasks
@@ -22,8 +26,15 @@ gulp.task('clean', function(){
     clean('build/**/*');
 });
 
-gulp.task('scripts', function(){
-    return gulp.src( paths.js )
+gulp.task('scripts', ['scripts-lib', 'scripts-local']);
+gulp.task('scripts-lib', function(){
+    return gulp.src( paths.js.libs )
+    .pipe( concat('lib.js') )
+    .pipe( gulp.dest('build/js/') )
+    .pipe( refresh() );
+});
+gulp.task('scripts-local', function(){
+    return gulp.src( paths.js.local )
     .pipe( concat('app.js') )
     .pipe( gulp.dest('build/js/') )
     .pipe( refresh() );

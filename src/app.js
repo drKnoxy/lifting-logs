@@ -1,32 +1,22 @@
-angular.module('app',[
-	// Angular Team
-	'ngRoute',
+(function() {
 
-	// Third Party
-	'angular-stamplay',
+    angular
+        .module('app', [
+            // Third Party
+            'angular-stamplay',
+            'ui.router',
 
-	// Local
-	'UserService',
-	'home'
-])
-.config(function($locationProvider) {
-	// $locationProvider.html5Mode(true);
-})
-.controller('appController', function($scope, User){
-	var app = this;
+            // Local
+            'app.routes',
+            'UserService',
+            'LiftsService',
+            'home'
+        ])
+        .controller('AppController', AppController);
 
-	app.user = {};
+    function AppController() {
+        var vm = this;
+    }
 
-	User.getCurrent()
-		.then(function(data){
-			console.log(data.get('_id'));
-			if (data.get('_id')) {
-				app.user.isLoggedIn = true;
-				app.user.id = data.get('_id');
-				app.user.name = data.get('displayName');
-				app.user.img = data.get('profileImg');
-			} else {
-				app.user.isLoggedIn = false;
-			}
-		})
-});
+})();
+
