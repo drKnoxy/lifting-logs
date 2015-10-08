@@ -9,7 +9,7 @@
             // Local
             'app.routes',
             'app.admin',
-            'app.auth',
+            'app.authenticate',
             'app.group',
             'app.home',
             'app.lift',

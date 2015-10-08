@@ -3,11 +3,11 @@
         <div class="page-header text-center">
             <h1>Sign Up</h1>
         </div>
-        <form ng-submit="auth.signup()">
+        <form ng-submit="authenticate.signup()">
             <div class="form-group">
                 <label>Name</label>
                 <input type="text"
-                    ng-model="auth.signupData.displayName"
+                    ng-model="authenticate.signupData.displayName"
                     required
                     class="form-control" />
             </div>
@@ -15,14 +15,14 @@
             <div class="form-group">
                 <label>Email</label>
                 <input type="text"
-                    ng-model="auth.signupData.email"
+                    ng-model="authenticate.signupData.email"
                     required
                     class="form-control" />
             </div>
             <div class="form-group">
                 <label>Password</label>
                 <input type="password"
-                    ng-model="auth.signupData.password"
+                    ng-model="authenticate.signupData.password"
                     required
                     class="form-control" />
             </div>
@@ -50,18 +50,18 @@
                 </p>
             </div>
         </div> -->
-        <form ng-submit="auth.login()">
+        <form ng-submit="authenticate.login()">
             <div class="form-group">
                 <label>Email</label>
                 <input type="email"
-                    ng-model="auth.loginData.email"
+                    ng-model="authenticate.loginData.email"
                     class="form-control"
                     required />
             </div>
             <div class="form-group">
                 <label>Password</label>
                 <input type="password"
-                    ng-model="auth.loginData.password"
+                    ng-model="authenticate.loginData.password"
                     class="form-control"
                     required />
             </div>

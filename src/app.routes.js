@@ -27,10 +27,10 @@
                 templateUrl: '/group/group.html',
                 controller: 'GroupController as group'
             })
-            .state('auth', {
-                url: '/auth',
-                templateUrl: '/auth/auth.html',
-                controller: 'AuthController as auth'
+            .state('authenticate', {
+                url: '/authenticate',
+                templateUrl: '/authenticate/authenticate.html',
+                controller: 'AuthenticateController as authenticate'
             })
             .state('admin', {
                 url: '/admin',

@@ -1,19 +1,19 @@
 (function() {
     angular
-        .module('app.auth', [])
-        .controller('AuthController', ['User', '$rootScope', '$state', AuthController]);
+        .module('app.authenticate', [])
+        .controller('AuthenticateController', ['User', '$rootScope', '$state', AuthenticateController]);
 
-    function AuthController(User, $rootScope, $state) {
-        var auth = this;
+    function AuthenticateController(User, $rootScope, $state) {
+        var authenticate = this;
 
-        auth.signupData = {};
-        auth.loginData = {};
+        authenticate.signupData = {};
+        authenticate.loginData = {};
 
-        auth.signup = signup;
-        auth.login = login;
+        authenticate.signup = signup;
+        authenticate.login = login;
 
         function signup() {
-            User.signup(auth.signupData)
+            User.signup(authenticate.signupData)
                 .then(function(data) {
                     if (data.get('_id')) {
                         $rootScope.currentUser.id = data.get('_id');
@@ -31,7 +31,7 @@
          * Bind the user's information to $rootScope
          */
         function login() {
-            User.login(auth.loginData)
+            User.login(authenticate.loginData)
                 .then(function(data) {
                     if (data.get('_id')) {
                         $rootScope.currentUser.id = data.get('_id');
