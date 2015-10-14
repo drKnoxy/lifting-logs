@@ -15,6 +15,7 @@ var paths = {
             'src/libs/**/*.js',
         ],
         local: [
+            '!src/libs/**/*',
             'src/app.js',
             'src/**/*.js'
         ]
