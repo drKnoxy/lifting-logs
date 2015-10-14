@@ -1,65 +1,69 @@
-(function(){
+(function() {
 
-	angular
-		.module('UserService', ['angular-stamplay'])
-		.factory('User', ['$q', '$stamplay', UserService]);
+    angular
+        .module('UserService', ['angular-stamplay'])
+        .factory('User', ['$q', '$stamplay', UserService]);
 
-	function UserService($q, $stamplay) {
+    function UserService($q, $stamplay) {
 
-		return {
-			getCurrent: getCurrent,
-			signup: signup,
-			login: login,
-			logout: logout
-		};
+        return {
+            getCurrent: getCurrent,
+            signup: signup,
+            login: login,
+            logout: logout
+        };
 
-		// get the current logged in user
-		function getCurrent() {
-			var deferred = $q.defer();
+        /////////////////////////////////////
 
-			// instantiate the user model from the sdk
-			var userModel = $stamplay.User().Model;
+        // get the current logged in user
+        function getCurrent() {
+            var deferred = $q.defer();
 
-			userModel.currentUser()
-				.then(function() {
-					deferred.resolve(userModel);
-				});
+            // instantiate the user model from the sdk
+            var userModel = $stamplay.User().Model;
 
-			return deferred.promise;
-		}
+            userModel.currentUser()
+                .then(function() {
+                    deferred.resolve(userModel);
+                });
 
-		function signup(data) {
-			var def = $q.defer();
+            return deferred.promise;
+        }
 
-			var user = $stamplay.User().Model;
-			user.signup(data)
-				.then(function() {
-					def.resolve(user);
-				});
+        function signup(data) {
+            var def = $q.defer();
 
-			return def.promise;
-		}
+            var user = $stamplay.User().Model;
+            user.signup(data)
+                .then(function() {
+                    def.resolve(user);
+                });
 
-		function login(data) {
-			var def = $q.defer();
+            return def.promise;
+        }
 
-			var user = $stamplay.User().Model;
-			user.login(data.email, data.password)
-				.then(function() {
-					def.resolve(user);
-				}, function() {
-					def.reject({'error': 'Unable to login.'});
-				});
+        function login(data) {
+            var def = $q.defer();
 
-			return def.promise;
-		}
+            var user = $stamplay.User().Model;
+            user.login(data.email, data.password)
+                .then(function() {
+                    def.resolve(user);
+                }, function() {
+                    def.reject({
+                        'error': 'Unable to login.'
+                    });
+                });
 
-		// logout function to clear the token from
-		function logout() {
+            return def.promise;
+        }
 
-			var userModel = $stamplay.User().Model;
-			userModel.logout();
-		}
+        // logout function to clear the token from
+        function logout() {
+            var userModel = $stamplay.User().Model;
+            userModel.logout();
+        }
 
-	}
+    }
+
 })();

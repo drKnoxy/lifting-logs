@@ -1,5 +1,6 @@
-(function() {
+'use strict';
 
+(function() {
     angular
         .module('app', [
             // Third Party
@@ -7,7 +8,6 @@
             'ui.router',
 
             // Local
-            'app.routes',
             'app.admin',
             'app.authenticate',
             'app.group',
@@ -16,7 +16,13 @@
 
             'UserService',
             'LiftsService',
-        ])
+        ]);
+
+})();
+
+(function(){
+    angular
+        .module('app')
         .controller('AppController', ['User', '$rootScope', AppController]);
 
     function AppController(User, $rootScope) {
@@ -25,18 +31,24 @@
 
         $rootScope.currentUser = {};
 
-        User.getCurrent()
-            .then(function(data) {
-                if (data.get('_id')) {
-                    $rootScope.currentUser = {
-                        id: data.get('_id'),
-                        name: data.get('displayName'),
-                        image: data.get('profileImg')
-                    };
-                } else {
-                    $rootScope.currentUser = {};
-                }
-            });
+        activate();
+
+        /////////////////////////////////////
+
+        function activate() {
+            User.getCurrent()
+                .then(function(data) {
+                    if (data.get('_id')) {
+                        $rootScope.currentUser = {
+                            id: data.get('_id'),
+                            name: data.get('displayName'),
+                            image: data.get('profileImg')
+                        };
+                    } else {
+                        $rootScope.currentUser = {};
+                    }
+                });
+        }
 
         function logout() {
             User.logout();
@@ -46,10 +58,9 @@
 
 })();
 
-
 (function() {
     angular
-        .module('app.routes', [])
+        .module('app')
         .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', AppRoutes]);
 
     function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -87,17 +98,18 @@
                 controller: 'AdminController as admin'
             });
     }
+
 })();
 
+(function() {
+    angular
+        .module('app.admin', [])
+        .controller('AdminController', AdminController);
 
-(function(){
-	angular
-		.module('app.admin', [])
-		.controller('AdminController', AdminController);
+    function AdminController() {
+        var vm = this;
+    }
 
-	function AdminController() {
-		var admin = this;
-	}
 })();
 
 (function() {
@@ -106,16 +118,18 @@
         .controller('AuthenticateController', ['User', '$rootScope', '$state', AuthenticateController]);
 
     function AuthenticateController(User, $rootScope, $state) {
-        var authenticate = this;
+        var vm = this;
 
-        authenticate.signupData = {};
-        authenticate.loginData = {};
+        vm.signupData = {};
+        vm.loginData = {};
 
-        authenticate.signup = signup;
-        authenticate.login = login;
+        vm.signup = signup;
+        vm.login = login;
+
+        /////////////////////////////////////
 
         function signup() {
-            User.signup(authenticate.signupData)
+            User.signup(vm.signupData)
                 .then(function(data) {
                     if (data.get('_id')) {
                         $rootScope.currentUser.id = data.get('_id');
@@ -133,7 +147,7 @@
          * Bind the user's information to $rootScope
          */
         function login() {
-            User.login(authenticate.loginData)
+            User.login(vm.loginData)
                 .then(function(data) {
                     if (data.get('_id')) {
                         $rootScope.currentUser.id = data.get('_id');
@@ -146,140 +160,153 @@
                 });
         }
     }
+
 })();
 
+(function() {
+    angular
+        .module('app.group', [])
+        .controller('GroupController', GroupController);
 
-(function(){
-	angular
-		.module('app.group', [])
-		.controller('GroupController', GroupController);
+    function GroupController() {
+        var vm = this;
+    }
 
-	function GroupController() {
-		var group = this;
-	}
 })();
 
-(function(){
-	angular
-		.module('app.home', [])
-		.controller('HomeController', ['Lifts', HomeController]);
+(function() {
+    angular
+        .module('app.home', [])
+        .controller('HomeController', ['Lifts', HomeController]);
 
-	function HomeController(Lifts) {
-		var home = this;
+    function HomeController(Lifts) {
+        var vm = this;
 
-		home.liftGroups = [];
-		home.selectedGroup = {};
+        vm.liftGroups = [];
+        vm.selectedGroup = {};
 
-		Lifts.getGroups()
-			.then(function(data) {
-				home.liftGroups = data.instance;
-				home.selectedGroup = home.liftGroups[0];
-			});
+        activate();
 
+        /////////////////////////////////////
 
-	}
+        function activate() {
+            // Get the lift groups
+            Lifts.getGroups()
+                .then(function(data) {
+                    vm.liftGroups = data.instance;
+                    vm.selectedGroup = vm.liftGroups[0];
+                });
+        }
+    }
+
 })();
 
-(function(){
-	angular
-		.module('app.lift', [])
-		.controller('LiftController', LiftController);
+(function() {
+    angular
+        .module('app.lift', [])
+        .controller('LiftController', LiftController);
 
-	function LiftController() {
-		var lift = this;
-	}
+    function LiftController() {
+        var vm = this;
+    }
+
 })();
 
-(function(){
+(function() {
+    angular
+        .module('LiftsService', ['angular-stamplay'])
+        .factory('Lifts', ['$q', '$stamplay', LiftsService]);
 
-	angular
-		.module('LiftsService', ['angular-stamplay'])
-		.factory('Lifts', ['$q', '$stamplay', LiftsService]);
+    function LiftsService($q, $stamplay) {
 
-	function LiftsService($q, $stamplay) {
+        return {
+            getGroups: getGroups
+        };
 
-		return {
-			getGroups: getGroups
-		};
+        /////////////////////////////////////
 
-		function getGroups() {
-			var deferred = $q.defer();
+        function getGroups() {
+            var deferred = $q.defer();
 
-			var collection = $stamplay.Cobject('liftgroups').Collection;
+            var collection = $stamplay.Cobject('liftgroups').Collection;
 
-			collection.fetch()
-				.then(function() {
-					deferred.resolve( collection );
-				});
+            collection.fetch()
+                .then(function() {
+                    deferred.resolve(collection);
+                });
 
-			return deferred.promise;
-		}
+            return deferred.promise;
+        }
+    }
 
-		return service;
-	}
 })();
-(function(){
 
-	angular
-		.module('UserService', ['angular-stamplay'])
-		.factory('User', ['$q', '$stamplay', UserService]);
+(function() {
 
-	function UserService($q, $stamplay) {
+    angular
+        .module('UserService', ['angular-stamplay'])
+        .factory('User', ['$q', '$stamplay', UserService]);
 
-		return {
-			getCurrent: getCurrent,
-			signup: signup,
-			login: login,
-			logout: logout
-		};
+    function UserService($q, $stamplay) {
 
-		// get the current logged in user
-		function getCurrent() {
-			var deferred = $q.defer();
+        return {
+            getCurrent: getCurrent,
+            signup: signup,
+            login: login,
+            logout: logout
+        };
 
-			// instantiate the user model from the sdk
-			var userModel = $stamplay.User().Model;
+        /////////////////////////////////////
 
-			userModel.currentUser()
-				.then(function() {
-					deferred.resolve(userModel);
-				});
+        // get the current logged in user
+        function getCurrent() {
+            var deferred = $q.defer();
 
-			return deferred.promise;
-		}
+            // instantiate the user model from the sdk
+            var userModel = $stamplay.User().Model;
 
-		function signup(data) {
-			var def = $q.defer();
+            userModel.currentUser()
+                .then(function() {
+                    deferred.resolve(userModel);
+                });
 
-			var user = $stamplay.User().Model;
-			user.signup(data)
-				.then(function() {
-					def.resolve(user);
-				});
+            return deferred.promise;
+        }
 
-			return def.promise;
-		}
+        function signup(data) {
+            var def = $q.defer();
 
-		function login(data) {
-			var def = $q.defer();
+            var user = $stamplay.User().Model;
+            user.signup(data)
+                .then(function() {
+                    def.resolve(user);
+                });
 
-			var user = $stamplay.User().Model;
-			user.login(data.email, data.password)
-				.then(function() {
-					def.resolve(user);
-				}, function() {
-					def.reject({'error': 'Unable to login.'});
-				});
+            return def.promise;
+        }
 
-			return def.promise;
-		}
+        function login(data) {
+            var def = $q.defer();
 
-		// logout function to clear the token from
-		function logout() {
+            var user = $stamplay.User().Model;
+            user.login(data.email, data.password)
+                .then(function() {
+                    def.resolve(user);
+                }, function() {
+                    def.reject({
+                        'error': 'Unable to login.'
+                    });
+                });
 
-			var userModel = $stamplay.User().Model;
-			userModel.logout();
-		}
+            return def.promise;
+        }
 
-	}
+        // logout function to clear the token from
+        function logout() {
+            var userModel = $stamplay.User().Model;
+            userModel.logout();
+        }
+
+    }
+
 })();

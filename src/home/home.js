@@ -1,20 +1,26 @@
-(function(){
-	angular
-		.module('app.home', [])
-		.controller('HomeController', ['Lifts', HomeController]);
+(function() {
+    angular
+        .module('app.home', [])
+        .controller('HomeController', ['Lifts', HomeController]);
 
-	function HomeController(Lifts) {
-		var home = this;
+    function HomeController(Lifts) {
+        var vm = this;
 
-		home.liftGroups = [];
-		home.selectedGroup = {};
+        vm.liftGroups = [];
+        vm.selectedGroup = {};
 
-		Lifts.getGroups()
-			.then(function(data) {
-				home.liftGroups = data.instance;
-				home.selectedGroup = home.liftGroups[0];
-			});
+        activate();
 
+        /////////////////////////////////////
 
-	}
+        function activate() {
+            // Get the lift groups
+            Lifts.getGroups()
+                .then(function(data) {
+                    vm.liftGroups = data.instance;
+                    vm.selectedGroup = vm.liftGroups[0];
+                });
+        }
+    }
+
 })();

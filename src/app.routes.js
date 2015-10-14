@@ -1,6 +1,6 @@
 (function() {
     angular
-        .module('app.routes', [])
+        .module('app')
         .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', AppRoutes]);
 
     function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -38,5 +38,5 @@
                 controller: 'AdminController as admin'
             });
     }
-})();
 
+})();

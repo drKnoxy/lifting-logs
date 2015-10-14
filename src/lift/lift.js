@@ -1,9 +1,10 @@
-(function(){
-	angular
-		.module('app.lift', [])
-		.controller('LiftController', LiftController);
+(function() {
+    angular
+        .module('app.lift', [])
+        .controller('LiftController', LiftController);
 
-	function LiftController() {
-		var lift = this;
-	}
+    function LiftController() {
+        var vm = this;
+    }
+
 })();

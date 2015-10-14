@@ -4,16 +4,18 @@
         .controller('AuthenticateController', ['User', '$rootScope', '$state', AuthenticateController]);
 
     function AuthenticateController(User, $rootScope, $state) {
-        var authenticate = this;
+        var vm = this;
 
-        authenticate.signupData = {};
-        authenticate.loginData = {};
+        vm.signupData = {};
+        vm.loginData = {};
 
-        authenticate.signup = signup;
-        authenticate.login = login;
+        vm.signup = signup;
+        vm.login = login;
+
+        /////////////////////////////////////
 
         function signup() {
-            User.signup(authenticate.signupData)
+            User.signup(vm.signupData)
                 .then(function(data) {
                     if (data.get('_id')) {
                         $rootScope.currentUser.id = data.get('_id');
@@ -31,7 +33,7 @@
          * Bind the user's information to $rootScope
          */
         function login() {
-            User.login(authenticate.loginData)
+            User.login(vm.loginData)
                 .then(function(data) {
                     if (data.get('_id')) {
                         $rootScope.currentUser.id = data.get('_id');
@@ -44,5 +46,5 @@
                 });
         }
     }
-})();
 
+})();
