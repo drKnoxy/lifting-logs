@@ -6,7 +6,7 @@
     function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
 
         // pretty urls
-        $locationProvider.html5Mode(true);
+        // $locationProvider.html5Mode(true);
 
         // defualt to homepage
         $urlRouterProvider.otherwise('/');

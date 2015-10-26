@@ -9,6 +9,10 @@
         vm.liftGroups = [];
         vm.selectedGroup = {};
 
+        vm.newLiftForm = {};
+        vm.newLift = {};
+        vm.addLift = addLift;
+
         activate();
 
         /////////////////////////////////////
@@ -20,6 +24,25 @@
                     vm.liftGroups = data.instance;
                     vm.selectedGroup = vm.liftGroups[0];
                 });
+
+            Lifts.all()
+                .then(function(data) {
+                    vm.lifts = data.instance;
+                })
+        }
+
+        function addLift() {
+            var data = {
+                name: vm.newLift.name,
+                for: vm.newLift.for,
+                group: vm.selectedGroup.instance._id
+            };
+
+            Lifts.create(data)
+                .then(function(data){
+                    vm.newLift = {};
+                    console.log('success', data);
+                })
         }
     }
 
