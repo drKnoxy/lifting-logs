@@ -37,6 +37,7 @@
                 for: vm.newLift.for,
                 group: vm.selectedGroup.instance._id
             };
+            console.log(data);
 
             Lifts.create(data)
                 .then(function(data){

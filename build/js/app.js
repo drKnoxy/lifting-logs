@@ -213,6 +213,7 @@
                 for: vm.newLift.for,
                 group: vm.selectedGroup.instance._id
             };
+            console.log(data);
 
             Lifts.create(data)
                 .then(function(data){
@@ -294,8 +295,8 @@
 
             var lift = new Stamplay.Cobject('lifts').Model;
             lift.set('name', data.name);
-            lift.set('for_weight', data.for_weight);
-            lift.set('for_reps', data.for_reps);
+            lift.set('for', data.for);
+            lift.set('group', data.group);
 
 
             lift.save()
