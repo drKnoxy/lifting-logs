@@ -40,7 +40,9 @@ const App = () => {
                 </a>
               )}
             </h2>
-            {isEditMode && <EditForm />}
+            {isEditMode && (
+              <EditForm onClose={() => setEditMode(false)} records={records} />
+            )}
 
             {!isEditMode && (
               <div className="row">
