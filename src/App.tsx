@@ -1,15 +1,14 @@
+import * as React from "react";
 import cx from "classnames";
-import { h } from "preact";
-import { useState } from "preact/hooks";
 
 const App = () => {
-  const [alert, setAlert] = useState<false | string[]>();
-  const [isEditMode, setEditMode] = useState<boolean>();
+  const [alert, setAlert] = React.useState<false | string[]>();
+  const [isEditMode, setEditMode] = React.useState<boolean>();
 
-  const [week, setCurrentWeek] = useState<number>(0);
-  const [cycle, setCurrentCycle] = useState<number>(0);
-  const [records, setRecords] = useState<
-    Array<{ label: string; reps: number; weight: number }>
+  const [week, setCurrentWeek] = React.useState<number>(0);
+  const [cycle, setCurrentCycle] = React.useState<number>(0);
+  const [records, setRecords] = React.useState<
+    Array<{ label: string; reps: number; weight: number; increment: number }>
   >([]);
 
   return (
@@ -21,7 +20,7 @@ const App = () => {
       <div>
         <div className="row">
           <div className="col-xs-12 col-lg-6 hidden-print">
-            <h1 style="padding-top:0px;">Online 5/3/1 Calculator</h1>
+            <h1 style={{ paddingTop: "0px" }}>Online 5/3/1 Calculator</h1>
             <p>
               This is a calculator for wendler's 5/3/1 routine. Enter your PRs,
               and the tables below will update with what weights you should be
@@ -82,11 +81,12 @@ const App = () => {
         setWeek={setCurrentWeek}
       />
 
-      <DisplayTable />
+      <DisplayTable cycle={cycle} records={records} week={week} />
 
       <footer className="small text-center">
         <hr />
-        {/* <3 <a href="https://twitter.com/adamwknox">adamwknox</a> | <a href="https://github.com/drKnoxy/lifters-log">sourcecode</a> */}
+        &lt;3 <a href="https://twitter.com/adamwknox">adamwknox</a> |{" "}
+        <a href="https://github.com/drKnoxy/lifters-log">sourcecode</a>
       </footer>
     </div>
   );
@@ -102,7 +102,12 @@ function AlertInfo({
 }) {
   return (
     <div
-      style="position: fixed; left: 15px; right: 15px; z-index: 100;"
+      style={{
+        position: "fixed",
+        left: "15px",
+        right: "15px",
+        zIndex: "100",
+      }}
       className="alert alert-info ng-hide"
     >
       <a onClick={onCloseClick} className="close">
@@ -197,27 +202,33 @@ function NavBar(props: NavBarProps) {
       <div className="header-buttons">
         <label>cycle:</label>
         <div className="btn-group">
-          {[0, 1, 2, 3, 4, 5, 6, 7].map((cycle) => (
+          {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
             <a
               className={cx("btn btn-default", {
-                active: cycle == props.cycle,
+                active: i == props.cycle,
               })}
-              onClick={() => props.setCycle(cycle)}
+              onClick={() => props.setCycle(i)}
             >
-              {props.cycle + 1}
+              {i + 1}
             </a>
           ))}
         </div>
       </div>
-      <div className="header-buttons" style="clear:both;margin-bottom: 4px;">
+      <div
+        className="header-buttons"
+        style={{
+          clear: "both",
+          marginBottom: "4px;",
+        }}
+      >
         <label>week:</label>
         <div className="btn-group">
-          {[0, 1, 2, 3].map((week) => (
+          {[0, 1, 2, 3].map((i) => (
             <a
-              className={cx("btn btn-default", { active: week === props.week })}
-              onClick={() => props.setWeek(week)}
+              className={cx("btn btn-default", { active: i === props.week })}
+              onClick={() => props.setWeek(i)}
             >
-              {props.week + 1}
+              {i + 1}
             </a>
           ))}
         </div>
